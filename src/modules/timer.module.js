@@ -9,6 +9,7 @@ export class TimerModule extends Module {
         <button>Запустить таймер</button>
         <div id="timer"></div>
         `
+        document.body.append(container);
 
         let started = false;
 
