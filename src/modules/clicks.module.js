@@ -1,4 +1,5 @@
 import { Module } from '../core/module'
+import { formatTime } from '../utils'
 
 export class ClicksModule extends Module {
     constructor(type, text) {
@@ -6,49 +7,34 @@ export class ClicksModule extends Module {
     }
 
     trigger() {
-        function formatTime(ms) {
-            return String(Number.parseFloat(ms / 1000).toFixed(1)).slice(-3);
-        }
+        const body = document.querySelector('body');
+        const title = document.createElement('h1');
+        body.append(title);
 
-        function startClicker() {
-            document.querySelector('h1')?.remove();
+        const startTime = Date.now();
+        const time = 5000;
+        let total = 0;
 
-            const body = document.querySelector('body');
-            const title = document.createElement('h1');
-            body.append(title);
+        title.textContent = formatTime(time);
+        document.addEventListener('click', (e) => {
+            total += 1;
+        });
 
-            const startTime = Date.now();
-            const time = 5000;
-            let total = 0;
+        const interval = setInterval(() => {
+            const delta = Date.now() - startTime;
+            title.textContent = formatTime(time - delta);
+        }, 100);
 
-            title.textContent = formatTime(time);
-            document.addEventListener('click', (e) => {
+        const timeout = setTimeout(() => {
+            title.textContent = `TOTAL ${total}`;
+            document.removeEventListener('click', (e) => {
                 total += 1;
             });
 
-            const interval = setInterval(() => {
-                const delta = Date.now() - startTime;
-                title.textContent = formatTime(time - delta);
-            }, 100);
+            clearInterval(interval);
+            clearTimeout(timeout);
+        }, time)
 
-            const timeout = setTimeout(() => {
-                title.textContent = `TOTAL ${total}`;
-                document.removeEventListener('click', (e) => {
-                    total += 1;
-                });
-
-                clearInterval(interval);
-                clearTimeout(timeout);
-            }, time)
-        };
-
-        document.addEventListener('contextmenu', (event) => {
-            event.preventDefault();
-            startClicker();
-        })
-    }
-
-    toHTML() {
-        return `<li class="menu-item" data-type="${this.type}">${this.text}</li>`;
-    }
+        document.querySelector('h1').remove();
+    };
 }

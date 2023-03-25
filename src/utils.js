@@ -9,3 +9,7 @@ export function getRandomColor() {
   }
   return color;
 }
+
+export function formatTime(ms) {
+  return String(Number.parseFloat(ms / 1000).toFixed(1)).slice(-3);
+}
