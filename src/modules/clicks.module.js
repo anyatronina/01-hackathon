@@ -1,5 +1,5 @@
 import { Module } from '../core/module'
-import { formatTime } from '../utils'
+import { formatTime, closeModule } from '../utils'
 
 export class ClicksModule extends Module {
     constructor(type, text) {
@@ -7,35 +7,37 @@ export class ClicksModule extends Module {
     }
 
     trigger() {
-        if (document.querySelector('h1')) {return {}};
+        if (document.getElementById('clicker')) { return {} };
 
-        const body = document.querySelector('body');
-        const title = document.createElement('h1');
-        body.append(title);
+        const containerToast = document.querySelector('.container-toast');
+        const title = document.createElement('div');
+        title.id = 'clicker';
+        title.className = 'toast';
+
+        containerToast.append(title);
 
         const startTime = Date.now();
         const time = 3000;
         let total = -1;
 
-        title.textContent = formatTime(time);
-        document.addEventListener('click', (e) => {
-            total += 1;
+        title.textContent = `<h1>${formatTime(time)}</h1>`;
+        
+        document.addEventListener('click', () => {
+            total += 1;    
         });
 
         const interval = setInterval(() => {
             const delta = Date.now() - startTime;
-            title.textContent = formatTime(time - delta);
+            title.innerHTML = `<h1>${formatTime(time - delta)}</h1>`;
         }, 100);
 
         const timeout = setTimeout(() => {
-            title.textContent = `TOTAL ${total}`;
-            document.removeEventListener('click', (e) => {
+            title.innerHTML = `<h1>TOTAL ${total}</h1>`;
+            document.removeEventListener('click', () => {
                 total += 1;
             });
 
-            setTimeout(() => {
-                document.querySelector('h1')?.remove();
-            }, 3000);
+            closeModule(title);
 
             clearInterval(interval);
             clearTimeout(timeout);

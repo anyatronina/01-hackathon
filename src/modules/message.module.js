@@ -1,11 +1,13 @@
 import { Module } from "../core/module";
+import { closeModule } from "../utils";
 
 export class MessageModule extends Module {
   constructor(type, text) {
     super(type, text);
   }
+  
   trigger() {
-    const body = document.querySelector("body");
+    const body = document.querySelector('body');
     body.insertAdjacentHTML(
       "beforeend",
       `
@@ -22,31 +24,32 @@ export class MessageModule extends Module {
       </div>
       `
     );
-    const modal = document.querySelector(".modal-background");
-    const input = document.querySelector(".modal-input");
-    const close = document.querySelector(".modal-close");
+
+    const containerToast = document.querySelector('.container-toast');
+    const modal = document.querySelector('.modal-background');
+    const input = document.querySelector('.modal-input');
+    const close = document.querySelector('.modal-close');
+    
     close.addEventListener("click", () => {
       modal.classList.toggle("modal-open");
     });
+    
     input.addEventListener("keydown", (event) => {
       if (event.keyCode === 13) {
         modal.remove();
-        body.insertAdjacentHTML(
+
+        containerToast.insertAdjacentHTML(
           "beforeend",
           `
-            <div class="toast">
-              ${event.target.value}
+            <div class="toast" id="castomText">
+              <h1>${event.target.value}</h1>
             </div>
           `
         );
-        setTimeout(() => {
-          const toast = document.querySelector(".toast");
-          toast.classList.toggle("toast-close");
-        }, 4000);
-        setTimeout(() => {
-          const toast = document.querySelector(".toast");
-          toast.remove();
-        }, 4500);
+        
+        const castomText = document.getElementById('castomText');
+
+        closeModule(castomText);
       }
     });
   }
