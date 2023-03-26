@@ -13,16 +13,17 @@ export class ClicksModule extends Module {
         const title = document.createElement('div');
         title.id = 'clicker';
         title.className = 'toast';
-        
+
         containerToast.append(title);
 
         const startTime = Date.now();
-        const time = 3000 + 500;
+        const time = 3000;
         let total = -1;
 
-        title.textContent = formatTime(time);
-        document.addEventListener('click', (e) => {
-            total += 1;
+        title.textContent = `<h1>${formatTime(time)}</h1>`;
+        
+        document.addEventListener('click', () => {
+            total += 1;    
         });
 
         const interval = setInterval(() => {
@@ -32,7 +33,7 @@ export class ClicksModule extends Module {
 
         const timeout = setTimeout(() => {
             title.innerHTML = `<h1>TOTAL ${total}</h1>`;
-            document.removeEventListener('click', (e) => {
+            document.removeEventListener('click', () => {
                 total += 1;
             });
 

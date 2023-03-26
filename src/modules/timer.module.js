@@ -5,7 +5,7 @@ export class TimerModule extends Module {
     constructor(type, text) {
         super(type, text);
     }
-    
+
     trigger() {
         if (document.querySelector('.container-timer')) { return {} };
 
@@ -19,6 +19,7 @@ export class TimerModule extends Module {
         <button><b>НАЧАТЬ</b></button>
         </div>
         <h1><div id="timer"></div></h1>
+            </div>
         `
         containerToast.append(container);
 
@@ -39,17 +40,18 @@ export class TimerModule extends Module {
                 let min = Math.floor(remain / (1000 * 60));
                 let sec = Math.floor((remain % (1000 * 60)) / 1000);
                 sec = sec < 10 ? "0" + sec : sec;
-                document.getElementById("timer").innerHTML = `${min}:${sec}`;
+                document.getElementById('timer').innerHTML = `${min}:${sec}`;
 
                 if (remain <= 0) {
                     clearInterval(countDown);
 
-                    document.getElementById("timer").innerHTML = "Время вышло!";
+                    document.getElementById('timer').innerHTML = "Время вышло!";
 
-                    closeModule()
+                    closeModule(document.querySelector('container-time'));
                     setTimeout(() => {
                         container.classList.add('toast-close');
                     }, 3000);
+
                     setTimeout(() => {
                         container.remove();
                     }, 3600);
