@@ -10,12 +10,6 @@ export class GameModule extends Module {
   trigger() {
     if (document.querySelector('.game-toast')) { return {} };
 
-    const startTime = Date.now();
-    const time = 15;
-    const body = document.querySelector('body');
-    const shape = this.create();
-    body.append(shape);
-
     const containerToast = document.querySelector('.container-toast');
     containerToast.insertAdjacentHTML(
       "beforeend",
@@ -26,12 +20,21 @@ export class GameModule extends Module {
         </div>
       `
     );
+    this.score = 0
+    const startTime = Date.now();
+    const time = 15;
+    const body = document.querySelector('body');
+    const shape = this.create();
+    body.append(shape);
+
+    
     
     const gameToast = document.querySelector('.game-toast');
     const gameTimer = document.querySelector('.game-timer');
-    const gameScore = document.querySelector('.game-score');
+    
 
     body.addEventListener('click', (event) => {
+      const gameScore = document.querySelector('.game-score');
       if (event.target.className === 'shape') {
         this.score += 1;
         gameScore.innerHTML = `<h1>Счет: ${this.score}</h1>`;
@@ -55,6 +58,7 @@ export class GameModule extends Module {
     }, 100);
 
     const timeout = setTimeout(() => {
+      const gameScore = document.querySelector('.game-score');
       const shapes = document.querySelectorAll('.shape')
       shapes.forEach((shape) => {
         shape.remove()
