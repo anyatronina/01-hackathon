@@ -60,6 +60,18 @@ h1 {
     align-items: center;
 }
 
+.container-timer__form {
+  display: flex;
+}
+
+.container-timer > input {
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #bdbdbd;
+  border-radius: 0.25rem;
+  outline: none;
+}
+
 /* modal */
 .modal-background {
   display: none;

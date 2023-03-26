@@ -15,7 +15,7 @@ export class ClicksModule extends Module {
 
         const startTime = Date.now();
         const time = 3000;
-        let total = 0;
+        let total = -1;
 
         title.textContent = formatTime(time);
         document.addEventListener('click', (e) => {
