@@ -2,7 +2,7 @@ import { Module } from '../core/module'
 
 export class TimerModule extends Module {
     trigger() {
-        if (document.querySelector('.container-timer')) {return {}};
+        if (document.querySelector('.container-timer')) { return {} };
 
         const container = document.createElement('div');
         container.className = 'container-timer';
@@ -10,7 +10,7 @@ export class TimerModule extends Module {
         container.innerHTML = `
         <div class="container-timer__form">
         <input type="text">
-        <button>Запустить таймер</button>
+        <button>Начать</button>
         </div>
         <div id="timer"></div>
         `
@@ -47,15 +47,33 @@ export class TimerModule extends Module {
             }, 0);
         }
 
-        const button = document.querySelector('button');
+        const button = container.querySelector('button');
+        const input = container.querySelector('input');
+
+        input.addEventListener('keypress', (event) => {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                button.click();
+            }
+        })
+
         button.addEventListener('click', (e) => {
-            const input = document.querySelector('input');
             const count = +input.value;
             input.value = '';
             input.disabled = 'true';
             button.disabled = 'true';
-            
+
             start(count);
+        })
+
+        document.body.addEventListener('contextmenu', () => {
+            if (!input.disabled) {
+                container.classList.add('toast-close');
+
+                setTimeout(() => {
+                    container.remove();
+                }, 600);
+            }
         })
     }
 }
