@@ -7,8 +7,11 @@ export class SoundModule extends Module {
   trigger() {
     const body = document.querySelector("body");
     const sound = new Audio();
-    sound.src = "../sound/announcements-at-the-airport.mp3";
+    sound.src = "/src/sound/announcements-at-the-airport.mp3";
     sound.autoplay = true;
     body.append(sound);
+    setTimeout(() => {
+      sound.remove();
+    }, 3500);
   }
 }
