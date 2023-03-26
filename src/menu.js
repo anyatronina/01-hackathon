@@ -5,6 +5,7 @@ import { ClicksModule } from './modules/clicks.module';
 import { TimerModule } from './modules/timer.module';
 import { SoundModule } from './modules/sound.module';
 import { MessageModule } from './modules/message.module';
+import { GameModule } from './modules/game.module';
 
 
 export class ContextMenu extends Menu {
@@ -17,6 +18,7 @@ export class ContextMenu extends Menu {
 		this.timerModule = new TimerModule('timerModule', 'Включить таймер');
 		this.soundModule = new SoundModule('soundModule', 'Проверить звук');
 		this.messageModule = new MessageModule('messageModule', 'Отправить сообщение');
+		this.gameModule = new GameModule('gameModule', 'Игра "Реакция"');
 	}
 
 	open() {
@@ -44,6 +46,7 @@ export class ContextMenu extends Menu {
 			const isTimerModule = (calledModule === 'timerModule');
 			const isSoundModule = (calledModule === 'soundModule');
 			const isMessageModule = (calledModule === 'messageModule');
+			const isGameModule = (calledModule === 'gameModule');
 
 			if (isBackgroundModule) this.backgroundModule.trigger();
 			if (isShapeModule) this.shapeModule.trigger();
@@ -51,6 +54,7 @@ export class ContextMenu extends Menu {
 			if (isTimerModule) this.timerModule.trigger();
 			if (isSoundModule) this.soundModule.trigger();
 			if (isMessageModule) this.messageModule.trigger();
+			if (isGameModule) this.gameModule.trigger();
 
 			this.close();
 		})
@@ -78,6 +82,9 @@ export class ContextMenu extends Menu {
 
 		const messageMenu = this.messageModule.toHTML();
 		this.el.insertAdjacentHTML('beforeend', messageMenu);
+
+		const gameMenu = this.gameModule.toHTML();
+		this.el.insertAdjacentHTML('beforeend', gameMenu);
 	}
 
 }
