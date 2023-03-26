@@ -2,6 +2,8 @@ import { Module } from '../core/module'
 
 export class TimerModule extends Module {
     trigger() {
+        if (document.querySelector('.container-timer')) {return {}};
+
         const container = document.createElement('div');
         container.className = 'container-timer';
         container.innerHTML = `
@@ -18,7 +20,7 @@ export class TimerModule extends Module {
             started = true;
             const startTime = new Date();
             const stopTime = startTime.setSeconds(startTime.getSeconds() + count);
-            container.getElementById("timer").innerHTML = `${Math.trunc(count / 60)}:${count % 60}`;
+            document.getElementById("timer").innerHTML = `${Math.trunc(count / 60)}:${count % 60}`;
 
             const countDown = setInterval(() => {
                 const now = new Date().getTime();
@@ -26,11 +28,11 @@ export class TimerModule extends Module {
                 let min = Math.floor(remain / (1000 * 60));
                 let sec = Math.floor((remain % (1000 * 60)) / 1000);
                 sec = sec < 10 ? "0" + sec : sec;
-                container.getElementById("timer").innerHTML = `${min}:${sec}`;
+                document.getElementById("timer").innerHTML = `${min}:${sec}`;
 
                 if (remain <= 0) {
                     clearInterval(countDown);
-                    container.getElementById("timer").innerHTML = "Время вышло!";
+                    document.getElementById("timer").innerHTML = "Время вышло!";
                     setInterval(() => {
                         container.remove();
                     }, 3000);
@@ -39,9 +41,9 @@ export class TimerModule extends Module {
             }, 0);
         }
 
-        const button = container.querySelector('button');
+        const button = document.querySelector('button');
         button.addEventListener('click', (e) => {
-            const input = container.querySelector('input');
+            const input = document.querySelector('input');
             const count = +input.value;
             start(count);
         })
