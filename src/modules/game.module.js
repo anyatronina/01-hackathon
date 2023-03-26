@@ -1,5 +1,5 @@
 import { Module } from "../core/module";
-import { random, getRandomColor } from "../utils.js";
+import { random, getRandomColor, closeModule } from "../utils.js";
 
 export class GameModule extends Module {
   constructor(type, text) {
@@ -7,6 +7,7 @@ export class GameModule extends Module {
     this.score = 0;
     this.circle = 0;
   }
+
   trigger() {
     if (document.querySelector('.game-toast')) { return {} };
 
@@ -20,6 +21,7 @@ export class GameModule extends Module {
         </div>
       `
     );
+
     this.score = 0
     const startTime = Date.now();
     const time = 15;
@@ -27,20 +29,18 @@ export class GameModule extends Module {
     const shape = this.create();
     body.append(shape);
 
-    
-    
     const gameToast = document.querySelector('.game-toast');
     const gameTimer = document.querySelector('.game-timer');
-    
 
     body.addEventListener('click', (event) => {
       const gameScore = document.querySelector('.game-score');
+
       if (event.target.className === 'shape') {
         this.score += 1;
         gameScore.innerHTML = `<h1>Счет: ${this.score}</h1>`;
-        
+
         event.target.classList.add('opacity');
-        
+
         setTimeout(() => {
           event.target.remove();
         }, 1000);
@@ -59,23 +59,20 @@ export class GameModule extends Module {
 
     const timeout = setTimeout(() => {
       const gameScore = document.querySelector('.game-score');
-      const shapes = document.querySelectorAll('.shape')
+      const shapes = document.querySelectorAll('.shape');
       shapes.forEach((shape) => {
         shape.remove()
-      })
+      });
+
       gameTimer.innerHTML = '<h1>Конец игры!</h1>';
-      gameScore.innerHTML = `<h1>Ваш результат: ${this.score}.</h1>`;
+      gameScore.innerHTML = `<h1>Ваш результат: ${this.score}</h1>`;
       clearInterval(interval);
       clearTimeout(timeout);
 
-      setTimeout(() => {
-        gameToast.classList.toggle('opacity');
-      }, 4000);
-      setTimeout(() => {
-        gameToast.remove();
-      }, 5000);
+      closeModule(gameToast, 4000, 'opacity', 1000);
     }, time * 1000);
   }
+
   create() {
     const body = document.querySelector('body');
     const clientHeight = body.clientHeight;
@@ -85,7 +82,7 @@ export class GameModule extends Module {
     const positionWidth = random(clientWidth - randomLong, 0);
 
     const shape = document.createElement('div');
-    
+
     shape.classList.add('shape');
     shape.style.height = `${randomLong}px`;
     shape.style.width = `${randomLong}px`;
@@ -97,9 +94,9 @@ export class GameModule extends Module {
     shape.style.top = `${positionHeight}px`;
     shape.style.right = `${positionWidth}px`;
     this.circle += 1;
-    
+
     shape.setAttribute('id', `${this.circle}`);
-    
+
     return shape;
   }
 }
