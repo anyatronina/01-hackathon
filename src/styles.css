@@ -139,6 +139,9 @@ h1 {
     opacity: 1;
   }
 }
+.opacity {
+  animation: 1.1s opacity;
+}
 @keyframes opacity {
   0% {
     opacity: 1;
