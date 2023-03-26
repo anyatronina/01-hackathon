@@ -11,15 +11,15 @@ export class ShapeModule extends Module {
     const clientHeight = body.clientHeight;
     const clientWidth = body.clientWidth;
     
-    const randomHeight = random(200, 100);
-    const randomWidth = random(200, 100);
-    const positionHeight = random(clientHeight - randomHeight, 0);
-    const positionWidth = random(clientWidth - randomWidth, 0);
+    const randomHeight = random(100, 200);
+    const randomWidth = random(100, 200);
+    const positionHeight = random(0, clientHeight - randomHeight);
+    const positionWidth = random(0, clientWidth - randomWidth);
     
     const shape = document.createElement('div');
     shape.style.height = `${randomHeight}px`;
     shape.style.width = `${randomWidth}px`;
-    shape.style.borderRadius = `${random(100, 0)}%`;
+    shape.style.borderRadius = `${random(0, 100)}%`;
     shape.style.background = getRandomColor();
     shape.style.boxShadow = '1px 2px 10px 0px rgba(122, 122, 122, 0.2)';
     shape.style.position = 'absolute';
