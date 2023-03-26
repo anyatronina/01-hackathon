@@ -13,3 +13,13 @@ export function getRandomColor() {
 export function formatTime(ms) {
   return String(Number.parseFloat(ms / 1000).toFixed(1)).slice(-3);
 }
+
+export function closeModule(selector, time = 3000, type = 'toast-close', delta = 600) {
+  setTimeout(() => {
+    selector.classList.toggle(type);
+  }, time);
+  
+  setTimeout(() => {
+    selector.remove();
+  }, time + delta);
+}
