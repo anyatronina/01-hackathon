@@ -2,6 +2,10 @@ import { Module } from "../core/module";
 import { random, getRandomColor } from "../utils.js";
 
 export class ShapeModule extends Module {
+  constructor(type, text) {
+    super(type, text);
+    this.shapes = null
+}
   trigger() {
     const body = document.querySelector("body");
     const clientHeight = body.clientHeight;
@@ -19,10 +23,14 @@ export class ShapeModule extends Module {
     shape.style.position = "absolute";
     shape.style.top = `${positionHeight}px`;
     shape.style.right = `${positionWidth}px`;
+    this.shapes += 1
+    shape.setAttribute('id', `${this.shapes}`);
     body.append(shape);
-  }
-
-  toHTML() {
-    return `<li class="menu-item" data-type="${this.type}">${this.text}</li>`;
+    setTimeout(() => {
+      shape.classList.toggle("opacity");
+    }, 4000);
+    setTimeout(() => {
+      shape.remove();
+    }, 5000);
   }
 }
