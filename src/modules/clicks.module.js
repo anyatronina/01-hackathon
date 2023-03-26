@@ -7,12 +7,14 @@ export class ClicksModule extends Module {
     }
 
     trigger() {
+        if (document.querySelector('h1')) {return {}};
+
         const body = document.querySelector('body');
         const title = document.createElement('h1');
         body.append(title);
 
         const startTime = Date.now();
-        const time = 5000;
+        const time = 3000;
         let total = 0;
 
         title.textContent = formatTime(time);
@@ -31,10 +33,12 @@ export class ClicksModule extends Module {
                 total += 1;
             });
 
+            setTimeout(() => {
+                document.querySelector('h1')?.remove();
+            }, 3000);
+
             clearInterval(interval);
             clearTimeout(timeout);
         }, time)
-
-        document.querySelector('h1').remove();
     };
 }
